@@ -10,10 +10,12 @@
 <body>
 <h2 th:text="#{welcomemsg}">SFG Brewery Monolith</h2>
 
-<div th:if="" class="orw" sec:authorize="!isAuthenticated()">
+<div class="row" sec:authorize="!isAuthenticated()">
     <div class="col-md-12">
-
-        <p th:if="${loginError}" class="error">Wrong Username or Password</p>
+        <div class="col-md-12">
+            <div th:if="${param.error}" class="alert alert-danger">Invalid Username or Password</div>
+            <div th:if="${param.logout}" class="alert alert-success">You have logged out</div>
+        </div>
         <form th:action="@{/login}" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" autofocus="true" autocomplete="off">
@@ -23,17 +25,17 @@
         </form>
     </div>
 </div>
-<div class="orw" sec:authorize="isAuthenticated()">
+<div class="row" sec:authorize="isAuthenticated()">
     <div class="col-md-12">
-        <p  th:text="'Welcome, ' + ${#authentication?.principal?.username}">User</p>
+        <p th:text="'Welcome: ' + ${#authentication?.principal?.username}">User</p>
         <p><a th:href="@{/logout}">Logout</a></p>
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-md-12">
-        <img class="img-responsive" src="../static/resources/images/brewery.png"
-             th:src="@{/resources/images/brewery.png}"/>
+        <img class="img-responsive" src="../static/resources/images/brewery.png" th:src="@{/resources/images/brewery.png}"/>
     </div>
 </div>
 
