@@ -1,7 +1,6 @@
 package guru.sfg.brewery.domain.security;
 
 import guru.sfg.brewery.domain.Customer;
-
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
@@ -66,8 +65,7 @@ public class User implements UserDetails, CredentialsContainer {
 
   private String google2faSecret;
 
-  @Transient
-  private Boolean google2faRequired = true;
+  @Transient private Boolean google2faRequired = true;
 
   @CreationTimestamp
   @Column(updatable = false)

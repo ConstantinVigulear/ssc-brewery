@@ -1,16 +1,13 @@
 package guru.sfg.brewery.config;
 
-import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import guru.sfg.brewery.security.google.Google2faFilter;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -33,35 +30,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.addFilterBefore(google2faFilter, SessionManagementFilter.class);
 
-    http.cors().and().authorizeRequests(
-            authorize -> {
-              authorize
-                  .antMatchers("/h2-console/**")
-                  .permitAll() // do not use in production!
-                  .antMatchers("/", "/webjars/**", "/login", "/resources/**")
-                  .permitAll();
-            })
+    http.cors()
+        .and()
+        .authorizeRequests(
+            authorize ->
+                authorize
+                    .antMatchers("/h2-console/**")
+                    .permitAll() // do not use in production!
+                    .antMatchers("/", "/webjars/**", "/login", "/resources/**")
+                    .permitAll())
         .authorizeRequests()
         .anyRequest()
         .authenticated()
         .and()
         .formLogin(
-            loginConfigurer -> {
-              loginConfigurer
-                  .loginProcessingUrl("/login")
-                  .loginPage("/")
-                  .permitAll()
-                  .successForwardUrl("/")
-                  .defaultSuccessUrl("/")
-                  .failureUrl("/?error");
-            })
+            loginConfigurer ->
+                loginConfigurer
+                    .loginProcessingUrl("/login")
+                    .loginPage("/")
+                    .permitAll()
+                    .successForwardUrl("/")
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/?error"))
         .logout(
-            logoutConfigurer -> {
-              logoutConfigurer
-                  .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                  .logoutSuccessUrl("/?logout")
-                  .permitAll();
-            })
+            logoutConfigurer ->
+                logoutConfigurer
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutSuccessUrl("/?logout")
+                    .permitAll())
         .httpBasic()
         .and()
         .csrf()
