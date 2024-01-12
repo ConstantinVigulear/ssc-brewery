@@ -1,6 +1,8 @@
 package guru.sfg.brewery.repositories.security;
 
 import guru.sfg.brewery.domain.security.User;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,4 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
   Optional<User> findByUsername(String userName);
+
+  List<User> findAllByAccountNonLockedAndLastModifiedDateIsBefore(Boolean locked, Timestamp timestamp);
 }

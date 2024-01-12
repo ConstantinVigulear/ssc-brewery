@@ -20,7 +20,10 @@ public abstract class BaseIT {
 
   @BeforeEach
   public void setup() {
-    mockMvc = MockMvcBuilders.webAppContextSetup(wac).apply(springSecurity()).build();
+    mockMvc = MockMvcBuilders
+            .webAppContextSetup(wac)
+            .apply(springSecurity())
+            .build();
   }
 
   public static Stream<Arguments> getStreamAllUsers() {
